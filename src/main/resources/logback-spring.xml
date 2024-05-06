@@ -1,0 +1,166 @@
+<configuration>
+    <!-- 默认的一些配置 -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <!--
+        自定义输出格式：
+            - %d：表示日期
+            - %thread：表示线程名
+            - %msg：日志消息
+            - %-5level：级别从左显示5个字符宽度
+                - 不加粗：
+                    %black 黑色 | %red 红色 | %green 绿色 | %yellow 黄色
+                    %magenta 洋红色 | %cyan 青色 | %white 白色 | %gray 灰色 | %blue 蓝色
+                - 加粗：
+                    字体前面加 bold，比如 %boldRed 加粗红色
+                - 高亮色
+                    %highlight
+
+            - %logger 输出日志的类
+            - %n：换行符
+        补充：%后面的-n是指位域的意思
+    -->
+    <property name="CUSTOM_FORMATER_COLOR"
+              value="%yellow(%d{yyyy-MM-dd HH:mm:ss.SSS}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{36}) - %msg%n" />
+    <!-- 无颜色日志，有颜色的日志文件打开会乱码，不好看，所以写入文件的日志选择这个 -->
+    <property name="CUSTOM_FORMATER_NOT_COLOR" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+
+    <!-- 定义应用名称，区分应用 -->
+    <property name="APP_NAME" value="aoaojiao"/>
+    <!-- 定义日志文件的输出路径 -->
+    <property name="LOG_PATH" value="${user.home}/logs/${APP_NAME}"/>
+    <!-- 定义日志文件名称和路径 -->
+    <property name="LOG_FILE" value="${LOG_PATH}/application.log"/>
+    <!-- 定义警告级别日志文件名称和路径 -->
+    <property name="WARN_LOG_FILE" value="${LOG_PATH}/warn.log"/>
+    <!-- 定义错误级别日志文件名称和路径 -->
+    <property name="ERROR_LOG_FILE" value="${LOG_PATH}/error.log"/>
+    <!-- 定义指定目录service日志文件名称和路径 -->
+    <property name="SERVICE_LOG_FILE" value="${LOG_PATH}/service.log"/>
+
+    <!-- 将日志滚动输出到application.log文件中 -->
+    <appender name="APPLICATION"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 输出文件目的地 -->
+        <file>${LOG_FILE}</file>
+        <encoder>
+            <!-- 使用默认的输出格式打印 -->
+            <pattern>${CUSTOM_FORMATER_NOT_COLOR}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <!-- 设置 RollingPolicy 属性，用于配置文件大小限制，保留天数、文件名格式 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 文件命名格式 -->
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 文件保留最大天数 -->
+            <maxHistory>7</maxHistory>
+            <!-- 文件大小限制 -->
+            <maxFileSize>50MB</maxFileSize>
+            <!-- 文件总大小 -->
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 摘取出WARN级别日志输出到warn.log中 -->
+    <appender name="WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${WARN_LOG_FILE}</file>
+        <encoder>
+            <!-- 使用默认的输出格式打印 -->
+            <pattern>${CUSTOM_FORMATER_NOT_COLOR}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <!-- 设置 RollingPolicy 属性，用于配置文件大小限制，保留天数、文件名格式 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 文件命名格式 -->
+            <fileNamePattern>${LOG_PATH}/warn.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 文件保留最大天数 -->
+            <maxHistory>7</maxHistory>
+            <!-- 文件大小限制 -->
+            <maxFileSize>50MB</maxFileSize>
+            <!-- 文件总大小 -->
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+        <!-- 日志过滤器，将WARN相关日志过滤出来 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+    </appender>
+
+    <!-- 摘取出ERROR级别日志输出到error.log中 -->
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${ERROR_LOG_FILE}</file>
+        <encoder>
+            <!-- 使用默认的输出格式打印 -->
+            <pattern>${CUSTOM_FORMATER_NOT_COLOR}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <!-- 设置 RollingPolicy 属性，用于配置文件大小限制，保留天数、文件名格式 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 文件命名格式 -->
+            <fileNamePattern>${LOG_PATH}/error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 文件保留最大天数 -->
+            <maxHistory>7</maxHistory>
+            <!-- 文件大小限制 -->
+            <maxFileSize>50MB</maxFileSize>
+            <!-- 文件总大小 -->
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+        <!-- 日志过滤器，将ERROR相关日志过滤出来 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <!-- 配置控制台输出 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- 使用默认的输出格式打印 -->
+            <pattern>${CUSTOM_FORMATER_COLOR}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!--
+        进阶技巧：
+            - 指定某个包下的日志输出
+            - 切面日志输出
+            - 添加 traceId 输出
+    -->
+    <!-- 定义指定目录service的appender -->
+    <appender name="SERVICE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${SERVICE_LOG_FILE}</file>
+        <encoder>
+            <!-- 使用默认的输出格式打印 -->
+            <pattern>${CUSTOM_FORMATER_NOT_COLOR}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <!-- 设置 RollingPolicy 属性，用于配置文件大小限制，保留天数、文件名格式 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 文件命名格式 -->
+            <fileNamePattern>${LOG_PATH}/service.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 文件保留最大天数 -->
+            <maxHistory>7</maxHistory>
+            <!-- 文件大小限制 -->
+            <maxFileSize>50MB</maxFileSize>
+            <!-- 文件总大小 -->
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 配置扫描包路径，追加日志到service的appender中 -->
+    <!--若是additivity设为true，则子Logger不止会在自己的appender里输出，还会在root的logger的appender里输出-->
+    <logger name="com.xiaozhi.aoaojiao.service" level="INFO" additivity="true">
+        <appender-ref ref="SERVICE"/>
+    </logger>
+
+    <!-- 配置输出级别 -->
+    <root level="INFO">
+        <!-- 加入控制台输出 -->
+        <appender-ref ref="CONSOLE"/>
+        <!-- 加入APPLICATION输出 -->
+        <appender-ref ref="APPLICATION"/>
+        <!-- 加入WARN日志输出 -->
+        <appender-ref ref="WARN"/>
+        <!-- 加入ERROR日志输出 -->
+        <appender-ref ref="ERROR"/>
+    </root>
+</configuration>

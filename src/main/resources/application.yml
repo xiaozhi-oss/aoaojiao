@@ -1,0 +1,139 @@
+spring:
+  profiles:
+    active: dev
+
+  application:
+    name: aoaojiao
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5   # 初始数
+      max-active: 10    # 最大活动数
+      aop-patterns: com.xiaozhi.aoaojiao.model.pojo.*  # 监控SpringBean
+      filters: stat,wall     # 底层开启功能，stat（sql监控），wall（防火墙）
+
+      stat-view-servlet:  # 配置监控页功能
+        login-username: admin
+        login-password: admin
+        url-pattern: /druid/*
+        enabled: true
+
+      web-stat-filter:  # 监控web
+        enabled: true
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        url-pattern: /*
+
+      filter:
+        stat:   # 对上面filters里面的stat的详细配置
+          slow-sql-millis: 1000
+          enabled: true
+        wall:
+          enabled: true
+          config:
+            drop-table-allow: false
+
+  # task 配置
+  task:
+    execution:
+      pool:
+        max-size: 8
+        core-size: 8
+        keep-alive: 60
+        queue-capacity: 1000
+      thread-name-prefix: aoaojiao-task-calc-
+
+  # 邮箱配置
+  mail:
+    # 指定邮件服务器地址
+    host: smtp.qq.com
+    # 登录账户
+    username: 1596971466@qq.com
+    # 登录密码
+    password: sqcrsufcmhmnfebf
+    # 端口
+    port: 465
+    # 默认编码
+    default-encoding: UTF-8
+    # 使用的协议
+    protocol: smtps
+    # 其他的属性
+    properties:
+      - mail.smtp.connectiontimeout: 5000
+      - mail.smtp.timeout: 3000
+      - mail.smtp.writetimeout: 5000
+      - mail.smtp.auth: true
+      - mail.smtp.starttls.enable: true
+      - mail.smtp.starttls.required: true
+
+
+# mybatis-plus
+mybatis-plus:
+  type-aliases-package: com.xiaozhi.aoaojiao.model.entity
+  mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true  # 开启驼峰命名
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    db-config:
+      logic-delete-field: del_flag # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+# jwt 配置
+jwt:
+  secret: fahsghlskdhgudshgiugweiubgagnfsdnfujawkenk
+  # 分钟
+  expireTime: 604800
+  header: Authorization
+  iss: aoaojiao-server
+  sub: aoaojiao-client
+
+# spring security 过滤路径配置
+ss:
+  public-paths:
+    - /*/api-docs # 文档
+    - /druid/*  # druid 管理界面
+    - /v3/api-docs/**   # 文档接口
+    - /api/admin/login  # 登录接口
+    - /api/code/**      # 图片验证码接口
+  static-paths:
+    - /*.html
+    - /**.html
+    - /**.css
+    - /**.js
+    - /profile/**
+    - /swagger-ui.html
+    - /swagger-resources/**
+    - /webjars/**
+
+# 日志设置
+logging:
+  level:
+    com.xiaozhi.aoaojiao: DEBUG
+    org.springframework.security: DEBUG
+
+# swagger 配置
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.xiaozhi.aoaojiao
+
+# knife4j的增强配置
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+    swagger-model-name: "实体类列表"
+  # 开启环境屏蔽，生成环境设置为 true
+#  production: true
+  

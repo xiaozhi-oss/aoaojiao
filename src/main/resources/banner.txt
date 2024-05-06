@@ -1,0 +1,8 @@
+${AnsiColor.CYAN}                           _ _             
+${AnsiColor.BRIGHT_CYAN}                          (_(_)            
+${AnsiColor.BRIGHT_RED}    __ _  ___   __ _  ___  _ _  __ _  ___  
+${AnsiColor.BRIGHT_YELLOW}   / _` |/ _ \ / _` |/ _ \| | |/ _` |/ _ \ 
+${AnsiColor.BRIGHT_RED}  | (_| | (_) | (_| | (_) | | | (_| | (_) |
+${AnsiColor.BRIGHT_MAGENTA}   \__,_|\___/ \__,_|\___/| |_|\__,_|\___/ 
+${AnsiColor.RED}                         _/ |              
+${AnsiColor.BRIGHT_MAGENTA}                        |__/          
