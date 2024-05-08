@@ -2,7 +2,7 @@ package com.xiaozhi.aoaojiao.service.strategy;
 
 import com.xiaozhi.aoaojiao.core.enums.LoginType;
 import com.xiaozhi.aoaojiao.model.dto.login.SysUserLoginDTO;
-import com.xiaozhi.aoaojiao.model.vo.login.SysUserLoginVO;
+import com.xiaozhi.aoaojiao.model.vo.SysUserLoginVO;
 
 /**
  * @author xiaozhi

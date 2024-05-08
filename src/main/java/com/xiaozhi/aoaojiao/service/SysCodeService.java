@@ -1,6 +1,6 @@
 package com.xiaozhi.aoaojiao.service;
 
-import com.xiaozhi.aoaojiao.model.vo.login.CaptchaImgVo;
+import com.xiaozhi.aoaojiao.model.vo.CaptchaImgVo;
 
 /**
  * @author xiaozhi

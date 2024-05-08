@@ -2,9 +2,9 @@ package com.xiaozhi.aoaojiao.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaozhi.aoaojiao.core.exception.BusinessException;
-import com.xiaozhi.aoaojiao.model.dto.dept.SysDeptListDTO;
-import com.xiaozhi.aoaojiao.model.vo.dept.SysDeptVO;
-import com.xiaozhi.aoaojiao.model.vo.dept.SysTreeDeptVO;
+import com.xiaozhi.aoaojiao.model.dto.SysDeptListDTO;
+import com.xiaozhi.aoaojiao.model.vo.SysDeptVO;
+import com.xiaozhi.aoaojiao.model.vo.SysTreeDeptVO;
 import com.xiaozhi.aoaojiao.model.entity.SysDept;
 
 import java.util.List;

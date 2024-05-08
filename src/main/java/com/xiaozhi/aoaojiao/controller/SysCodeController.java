@@ -1,7 +1,7 @@
 package com.xiaozhi.aoaojiao.controller;
 
 import com.xiaozhi.aoaojiao.core.utils.ResponseResult;
-import com.xiaozhi.aoaojiao.model.vo.login.CaptchaImgVo;
+import com.xiaozhi.aoaojiao.model.vo.CaptchaImgVo;
 import com.xiaozhi.aoaojiao.service.SysCodeService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

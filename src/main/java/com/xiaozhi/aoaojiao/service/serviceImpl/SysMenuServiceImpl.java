@@ -1,10 +1,27 @@
 package com.xiaozhi.aoaojiao.service.serviceImpl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xiaozhi.aoaojiao.core.enums.ResponseStatus;
+import com.xiaozhi.aoaojiao.core.exception.BusinessException;
 import com.xiaozhi.aoaojiao.mapper.SysMenuMapper;
+import com.xiaozhi.aoaojiao.model.dto.SysMenuListDTO;
 import com.xiaozhi.aoaojiao.model.entity.SysMenu;
+import com.xiaozhi.aoaojiao.model.vo.SysMenuVO;
+import com.xiaozhi.aoaojiao.model.vo.SysTreeMenuVO;
 import com.xiaozhi.aoaojiao.service.SysMenuService;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -17,4 +34,84 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
 
+    @Resource
+    private SysMenuMapper sysMenuMapper;
+
+    @Override
+    public List<SysTreeMenuVO> selectMenuTreeList() {
+        var sysMenuVOList = this.selectMenuList(new SysMenuListDTO());
+        return BeanUtil.copyToList(sysMenuVOList, SysTreeMenuVO.class);
+    }
+
+    @Override
+    public List<SysMenuVO> selectMenuList(SysMenuListDTO sysMenuListDTO) {
+        LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
+        if (ObjectUtil.isNotEmpty(sysMenuListDTO.getMenuName())) {
+            wrapper.eq(SysMenu::getMenuName, sysMenuListDTO.getMenuName());
+        }
+        if (ObjectUtil.isNotEmpty(sysMenuListDTO.getStatus())) {
+            wrapper.eq(SysMenu::getStatus, sysMenuListDTO.getStatus());
+        }
+        var deptList = sysMenuMapper.selectList(wrapper);
+        // 获取树形结构数据
+        List<SysMenuVO> sysDeptVOList = deptList.stream().map(dept ->
+                BeanUtil.copyProperties(dept, SysMenuVO.class)).toList();
+        return getDeptTree(sysDeptVOList);
+    }
+
+    /**
+     * 构建树结构数据
+     * @param deptList  部门list
+     */
+    private List<SysMenuVO> getDeptTree(List<SysMenuVO> deptList) {
+        // 核心：子找父
+        var deptTreeList = new ArrayList<SysMenuVO>();
+        // 根据父ID进行分组
+        List<Long> idList = deptList.stream().map(SysMenuVO::getMenuId).toList();
+        Map<Long, List<SysMenuVO>> childrenMap = deptList.stream()
+                .collect(Collectors.groupingBy(SysMenuVO::getParentId, Collectors.toList()));
+        for (SysMenuVO sysMenuVO : deptList) {
+            // 如果父节点不在id列表中，那么它就是顶级父节点
+            Long parentId = sysMenuVO.getParentId();
+            if (!idList.contains(parentId)) {
+                getChildrenList(childrenMap, sysMenuVO);
+                deptTreeList.add(sysMenuVO);
+            }
+        }
+        // 如果为空说明没有父节点，直接返回匹配的数据
+        if (deptTreeList.isEmpty()) {
+            return deptList;
+        }
+        // 退出条件就是遍历完成
+        return deptTreeList;
+    }
+
+    /**
+     * 获取子节点列表
+     * @param map   父ID对应的子列表
+     * @param sysMenuVO   响应数据对象
+     */
+    private void getChildrenList(Map<Long, List<SysMenuVO>> map,
+                                 SysMenuVO sysMenuVO) {
+        // 获取子节点列表
+        List<SysMenuVO> sysMenuVOList = map.get(sysMenuVO.getMenuId());
+        if (ObjectUtils.isEmpty(sysMenuVOList)) {
+            sysMenuVOList = ListUtil.empty();
+        }
+        // 遍历子节点，子节点获取它的子节点
+        for (SysMenuVO sysMenu : sysMenuVOList) {
+            Long deptId = sysMenu.getMenuId();
+            if (map.containsKey(deptId)) {
+                getChildrenList(map, sysMenu);
+            }
+        }
+        sysMenuVO.setChildrenList(sysMenuVOList);
+    }
+
+    @Override
+    public void deleteMenuById(Long id) throws BusinessException {
+        int isDelete = sysMenuMapper.deleteById(id);
+        Assert.isTrue(isDelete <= 0,
+                () -> BusinessException.build(ResponseStatus.OPERATION_ERROR));
+    }
 }

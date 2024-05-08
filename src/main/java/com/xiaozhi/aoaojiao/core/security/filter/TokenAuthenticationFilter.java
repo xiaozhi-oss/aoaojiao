@@ -3,7 +3,7 @@ package com.xiaozhi.aoaojiao.core.security.filter;
 import cn.hutool.core.util.ObjectUtil;
 import com.xiaozhi.aoaojiao.core.constants.RedisConstants;
 import com.xiaozhi.aoaojiao.core.utils.RedisUtil;
-import com.xiaozhi.aoaojiao.model.vo.login.LoginUserVo;
+import com.xiaozhi.aoaojiao.model.vo.LoginUserVo;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

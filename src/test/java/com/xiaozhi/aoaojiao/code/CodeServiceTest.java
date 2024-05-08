@@ -1,6 +1,6 @@
 package com.xiaozhi.aoaojiao.code;
 
-import com.xiaozhi.aoaojiao.model.vo.login.CaptchaImgVo;
+import com.xiaozhi.aoaojiao.model.vo.CaptchaImgVo;
 import com.xiaozhi.aoaojiao.service.SysCodeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

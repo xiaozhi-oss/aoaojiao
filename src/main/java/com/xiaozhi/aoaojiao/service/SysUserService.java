@@ -3,7 +3,7 @@ package com.xiaozhi.aoaojiao.service;
 import com.xiaozhi.aoaojiao.model.dto.login.SysUserLoginDTO;
 import com.xiaozhi.aoaojiao.model.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xiaozhi.aoaojiao.model.vo.login.SysUserLoginVO;
+import com.xiaozhi.aoaojiao.model.vo.SysUserLoginVO;
 
 /**
  * <p>

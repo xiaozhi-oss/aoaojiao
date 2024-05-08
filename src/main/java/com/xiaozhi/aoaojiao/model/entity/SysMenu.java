@@ -68,8 +68,8 @@ public class SysMenu {
     /**
      * 菜单状态：0-不可用；1-可用
      */
-    @TableField("menu_status")
-    private Integer menuStatus;
+    @TableField("status")
+    private Integer status;
 
     /**
      * 权限标识

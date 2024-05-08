@@ -9,7 +9,7 @@ import com.xiaozhi.aoaojiao.core.enums.ResponseStatus;
 import com.xiaozhi.aoaojiao.core.exception.BusinessException;
 import com.xiaozhi.aoaojiao.core.utils.EmailService;
 import com.xiaozhi.aoaojiao.core.utils.RedisUtil;
-import com.xiaozhi.aoaojiao.model.vo.login.CaptchaImgVo;
+import com.xiaozhi.aoaojiao.model.vo.CaptchaImgVo;
 import com.xiaozhi.aoaojiao.service.SysCodeService;
 import com.xiaozhi.aoaojiao.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;

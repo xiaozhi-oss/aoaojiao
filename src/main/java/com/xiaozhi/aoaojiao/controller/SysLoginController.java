@@ -5,18 +5,14 @@ import com.xiaozhi.aoaojiao.core.exception.ParameterVerificationException;
 import com.xiaozhi.aoaojiao.core.utils.JwtTokenUtil;
 import com.xiaozhi.aoaojiao.core.utils.RedisUtil;
 import com.xiaozhi.aoaojiao.core.utils.ResponseResult;
-import com.xiaozhi.aoaojiao.model.dto.login.SysUserLoginDTO;
 import com.xiaozhi.aoaojiao.model.dto.login.factory.SysLoginDTOFactory;
 import com.xiaozhi.aoaojiao.model.entity.SysUser;
-import com.xiaozhi.aoaojiao.model.vo.login.SysUserLoginVO;
+import com.xiaozhi.aoaojiao.model.vo.SysUserLoginVO;
 import com.xiaozhi.aoaojiao.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +26,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/admin")
 public class SysLoginController {
-
-    private static final Logger log = LoggerFactory.getLogger(SysLoginController.class);
 
     @Autowired
     private SysUserService sysUserService;
@@ -56,15 +50,14 @@ public class SysLoginController {
     @Operation(summary = "登录接口")
     @PostMapping("/login")
     public ResponseResult<SysUserLoginVO> login(@RequestBody Map<String, String> params) {
-        SysUserLoginDTO loginDto = SysLoginDTOFactory.getLoginDto(params);
-
-        Errors errors = validator.validateObject(loginDto);
+        var loginDto = SysLoginDTOFactory.getLoginDto(params);
+        var errors = validator.validateObject(loginDto);
         var errorList = errors.getAllErrors()
                 .stream().map(ObjectError::getDefaultMessage).toList();
         if (!errorList.isEmpty()) {
             throw new ParameterVerificationException(errorList);
         }
-        SysUserLoginVO sysUserLoginVO = sysUserService.login(loginDto);
+        var sysUserLoginVO = sysUserService.login(loginDto);
         return ResponseResult.success(sysUserLoginVO);
     }
 
