@@ -28,6 +28,7 @@ public enum ResponseStatus {
     
     USER_UN_AUTHENTICATED("A0401", "用户未认证"),
     USER_UN_UNAUTHORIZED("A0403", "权限不够，无法访问"),
+    NOT_FOUND_ERROR("A0404", "访问资源不存在"),
 
 
     /**

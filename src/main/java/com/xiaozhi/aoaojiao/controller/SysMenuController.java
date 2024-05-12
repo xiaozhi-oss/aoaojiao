@@ -65,12 +65,12 @@ public class SysMenuController {
     }
 
     @Parameters(
-            @Parameter(name = "deptId", description = "部门ID", in = ParameterIn.QUERY)
+            @Parameter(name = "menuId", description = "菜单ID", in = ParameterIn.PATH)
     )
     @Operation(summary = "根据ID删除菜单")
-    @DeleteMapping("/deleteById")
-    public ResponseResult<Void> deleteMenuById(@RequestBody Long deptId) {
-        sysMenuService.deleteMenuById(deptId);
+    @DeleteMapping("/deleteById/{menuId}")
+    public ResponseResult<Void> deleteMenuById(@PathVariable Long menuId) {
+        sysMenuService.deleteMenuById(menuId);
         return ResponseResult.success();
     }
 }

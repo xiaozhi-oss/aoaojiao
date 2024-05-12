@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +44,16 @@ public class GlobalExceptionHandler {
         return ResponseResult.response(ResponseStatus.PARAMETER_VERIFICATION_ERROR, errorList);
     }
 
-    @ExceptionHandler(value = { BusinessException.class })
-    public ResponseResult<Void> processBusinessException(BusinessException businessException) {
-        log.warn("时间：{}，业务异常：{}", DateUtil.now(), businessException.getMessage());
-        return ResponseResult.fail(businessException.getResponseStatus());
+    @ExceptionHandler(value = { BusinessException.class, NoResourceFoundException.class })
+    public ResponseResult<Void> processBusinessException(Exception e) {
+        log.warn("时间：{}，业务异常：{}", DateUtil.now(), e.getMessage());
+        if (e instanceof BusinessException be) {
+            return ResponseResult.fail(be.getResponseStatus());
+        } else if (e instanceof  NoResourceFoundException) {
+            return ResponseResult.fail(ResponseStatus.NOT_FOUND_ERROR);
+        } else {
+            return ResponseResult.fail(ResponseStatus.SYSTEM_ERROR);
+        }
     }
 
     /**

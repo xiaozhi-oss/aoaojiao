@@ -148,8 +148,21 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public void deleteMenuById(Long id) throws BusinessException {
-        int isDelete = sysMenuMapper.deleteById(id);
-        Assert.isTrue(isDelete > 0,
+        checkMenuHasParentMenu(id);
+        int count = sysMenuMapper.deleteById(id);
+        Assert.isTrue(count > 0,
                 () -> BusinessException.build(ResponseStatus.OPERATION_ERROR));
+    }
+
+    /**
+     * 检查是否存在子节点，如果有，不允许删除
+     * @param id    父ID
+     */
+    private void checkMenuHasParentMenu(Long id) {
+        var wrapper = new LambdaQueryWrapper<SysMenu>();
+        wrapper.eq(SysMenu::getParentId, id);
+        Long count = sysMenuMapper.selectCount(wrapper);
+        Assert.isTrue(count <= 0,
+                () -> BusinessException.build(ResponseStatus.DELETE_OP_ERROR));
     }
 }
