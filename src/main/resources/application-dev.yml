@@ -11,9 +11,9 @@ spring:
   # redis 配置
   data:
     redis:
-      host: 120.24.226.87
+      host: 192.168.10.11
       port: 6379
-      password: fK3RKBEz3anQIJ
+      password: 123456
       database: 0
       lettuce:
         pool:

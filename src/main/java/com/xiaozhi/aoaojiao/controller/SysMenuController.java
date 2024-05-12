@@ -1,15 +1,9 @@
 package com.xiaozhi.aoaojiao.controller;
 
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.date.DateTime;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.xiaozhi.aoaojiao.core.enums.ResponseStatus;
-import com.xiaozhi.aoaojiao.core.exception.BusinessException;
 import com.xiaozhi.aoaojiao.core.utils.ResponseResult;
 import com.xiaozhi.aoaojiao.model.dto.SysMenuAddOrUpdateDTO;
 import com.xiaozhi.aoaojiao.model.dto.SysMenuListDTO;
-import com.xiaozhi.aoaojiao.model.entity.SysMenu;
 import com.xiaozhi.aoaojiao.model.vo.SysMenuVO;
 import com.xiaozhi.aoaojiao.model.vo.SysTreeMenuVO;
 import com.xiaozhi.aoaojiao.service.SysMenuService;
@@ -43,37 +37,15 @@ public class SysMenuController {
     @Operation(summary = "添加菜单")
     @PostMapping("/save")
     public ResponseResult<Boolean> saveMenu(@RequestBody @Valid SysMenuAddOrUpdateDTO sysMenuAddOrUpdateDTO) {
-        checkNameRepeat(sysMenuAddOrUpdateDTO.getMenuName());
-        var sysMenu = BeanUtil.copyProperties(sysMenuAddOrUpdateDTO, SysMenu.class);
-        sysMenu.setCreateTime(DateTime.now());
-        // TODO 设置创建者
-        sysMenu.setCreateBy(0L);
+        sysMenuService.addOrUpdateMenu(sysMenuAddOrUpdateDTO);
         return ResponseResult.success();
     }
 
     @Operation(summary = "更新菜单")
     @PutMapping("/update")
     public ResponseResult<Boolean> updateMenu(@RequestBody @Valid SysMenuAddOrUpdateDTO sysMenuAddOrUpdateDTO) {
-        checkNameRepeat(sysMenuAddOrUpdateDTO.getMenuName());
-        var sysMenu = BeanUtil.copyProperties(sysMenuAddOrUpdateDTO, SysMenu.class);
-        sysMenu.setUpdateTime(DateTime.now());
-        // TODO 设置更新者
-        return ResponseResult.success(sysMenuService.updateById(sysMenu));
-    }
-
-    /**
-     * 检查名字是否已经存在
-     *
-     * @param menuName  菜单名
-     */
-    private void checkNameRepeat(String menuName) {
-        // 判断是否已经存在该部门名称
-        var wrapper = new QueryWrapper<SysMenu>();
-        wrapper.eq("menu_name", menuName);
-        long count = sysMenuService.count(wrapper);
-        if (count > 0) {
-            throw new BusinessException(ResponseStatus.NAME_REPEAT_ERROR);
-        }
+        sysMenuService.addOrUpdateMenu(sysMenuAddOrUpdateDTO);
+        return ResponseResult.success();
     }
 
     @Parameters({
@@ -88,8 +60,8 @@ public class SysMenuController {
 
     @Operation(summary = "获取菜单树状列表")
     @GetMapping("/treeList")
-    public List<SysTreeMenuVO> getTreeMenuList() {
-        return sysMenuService.selectMenuTreeList();
+    public ResponseResult<List<SysTreeMenuVO>> getTreeMenuList() {
+        return ResponseResult.success(sysMenuService.selectMenuTreeList());
     }
 
     @Parameters(

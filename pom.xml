@@ -140,6 +140,23 @@
         </dependency>
     </dependencies>
     <build>
+        <resources>
+            <!-- 默认资源过滤，包含所有 -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- 添加一个filtering标签并设置为false可以防止资源过滤 -->
+                <filtering>false</filtering>
+            </resource>
+            <!-- 自定义资源过滤，排除特定文件夹 -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>web-ui.aoaojiao-admin-ui/**</exclude>
+                    <exclude>web-ui.aoaojiao-web-ui/**</exclude>
+                </excludes>
+                <!-- 如果需要过滤其他资源，可以在这里添加并设置filtering为true -->
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

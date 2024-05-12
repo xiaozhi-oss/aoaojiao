@@ -33,5 +33,7 @@ build/
 .vscode/
 
 
-### pro-application ###
+### 排除文件 ###
 application-prod.yml
+# 排除依赖
+node_modules/*

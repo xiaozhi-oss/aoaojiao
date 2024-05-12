@@ -86,8 +86,8 @@ public class SysDeptController {
 
     @Operation(summary = "获取部门树状列表")
     @GetMapping("/treeList")
-    public List<SysTreeDeptVO> getTreeDeptList() {
-        return sysDeptService.selectDeptTreeList();
+    public ResponseResult<List<SysTreeDeptVO>> getTreeDeptList() {
+        return ResponseResult.success(sysDeptService.selectDeptTreeList());
     }
 
     @Parameters(

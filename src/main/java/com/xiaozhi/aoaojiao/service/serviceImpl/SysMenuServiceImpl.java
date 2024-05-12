@@ -2,13 +2,17 @@ package com.xiaozhi.aoaojiao.service.serviceImpl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaozhi.aoaojiao.core.enums.ResponseStatus;
 import com.xiaozhi.aoaojiao.core.exception.BusinessException;
+import com.xiaozhi.aoaojiao.core.utils.SecurityUtil;
 import com.xiaozhi.aoaojiao.mapper.SysMenuMapper;
+import com.xiaozhi.aoaojiao.model.dto.SysMenuAddOrUpdateDTO;
 import com.xiaozhi.aoaojiao.model.dto.SysMenuListDTO;
 import com.xiaozhi.aoaojiao.model.entity.SysMenu;
 import com.xiaozhi.aoaojiao.model.vo.SysMenuVO;
@@ -36,6 +40,39 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Resource
     private SysMenuMapper sysMenuMapper;
+
+    @Override
+    public void addOrUpdateMenu(SysMenuAddOrUpdateDTO sysMenuAddOrUpdateDTO) {
+        var userId = SecurityUtil.getLoginUserId();
+        DateTime currentDate = DateTime.now();
+        var sysMenu = BeanUtil.copyProperties(sysMenuAddOrUpdateDTO, SysMenu.class);
+        // ID 为空则为添加
+        int result = 0;
+        if (ObjectUtil.isEmpty(sysMenu.getMenuId())) {
+            // 添加需要检测是否已经存在该名称
+            checkMenuNameRepeat(sysMenuAddOrUpdateDTO.getMenuName());
+            sysMenu.setCreateBy(userId);
+            sysMenu.setCreateTime(currentDate);
+            result = sysMenuMapper.insert(sysMenu);
+        } else {
+            // ID 不为空为更新
+            sysMenu.setUpdateBy(userId);
+            sysMenu.setUpdateTime(currentDate);
+            result = sysMenuMapper.updateById(sysMenu);
+        }
+        Assert.isTrue(result > 0,
+                () -> BusinessException.build(ResponseStatus.OPERATION_ERROR));
+    }
+
+    @Override
+    public void checkMenuNameRepeat(String menuName) {
+        // 判断是否已经存在该部门名称
+        var wrapper = new QueryWrapper<SysMenu>();
+        wrapper.eq("menu_name", menuName);
+        long count = sysMenuMapper.selectCount(wrapper);
+        Assert.isTrue(count <= 0,
+                () ->  BusinessException.build(ResponseStatus.NAME_REPEAT_ERROR));
+    }
 
     @Override
     public List<SysTreeMenuVO> selectMenuTreeList() {
@@ -97,12 +134,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         List<SysMenuVO> sysMenuVOList = map.get(sysMenuVO.getMenuId());
         if (ObjectUtils.isEmpty(sysMenuVOList)) {
             sysMenuVOList = ListUtil.empty();
-        }
-        // 遍历子节点，子节点获取它的子节点
-        for (SysMenuVO sysMenu : sysMenuVOList) {
-            Long deptId = sysMenu.getMenuId();
-            if (map.containsKey(deptId)) {
-                getChildrenList(map, sysMenu);
+        } else {
+            // 遍历子节点，子节点获取它的子节点
+            for (SysMenuVO sysMenu : sysMenuVOList) {
+                Long deptId = sysMenu.getMenuId();
+                if (map.containsKey(deptId)) {
+                    getChildrenList(map, sysMenu);
+                }
             }
         }
         sysMenuVO.setChildrenList(sysMenuVOList);
@@ -111,7 +149,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public void deleteMenuById(Long id) throws BusinessException {
         int isDelete = sysMenuMapper.deleteById(id);
-        Assert.isTrue(isDelete <= 0,
+        Assert.isTrue(isDelete > 0,
                 () -> BusinessException.build(ResponseStatus.OPERATION_ERROR));
     }
 }
