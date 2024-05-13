@@ -17,7 +17,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginUserVo implements Serializable {
+public class LoginUserVO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

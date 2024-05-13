@@ -3,7 +3,7 @@ package com.xiaozhi.aoaojiao.core.security.filter;
 import cn.hutool.core.util.ObjectUtil;
 import com.xiaozhi.aoaojiao.core.constants.RedisConstants;
 import com.xiaozhi.aoaojiao.core.utils.RedisUtil;
-import com.xiaozhi.aoaojiao.model.vo.LoginUserVo;
+import com.xiaozhi.aoaojiao.model.vo.LoginUserVO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,7 +38,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse resp, 
                                     FilterChain chain) throws ServletException, IOException {
         var token = req.getHeader(tokenHeader);
-        var loginUserVo = (LoginUserVo) redisUtil.get(RedisConstants.getLoginTokenKey(token));
+        var loginUserVo = (LoginUserVO) redisUtil.get(RedisConstants.getLoginTokenKey(token));
         if (ObjectUtil.isNotEmpty(loginUserVo)) {
             var authenticationToken = new UsernamePasswordAuthenticationToken(loginUserVo, null, getPermissions(loginUserVo.getPermissions()));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);

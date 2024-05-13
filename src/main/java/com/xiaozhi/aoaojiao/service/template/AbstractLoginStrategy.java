@@ -6,7 +6,7 @@ import com.xiaozhi.aoaojiao.core.utils.RedisUtil;
 import com.xiaozhi.aoaojiao.mapper.SysUserMapper;
 import com.xiaozhi.aoaojiao.model.dto.login.SysUserLoginDTO;
 import com.xiaozhi.aoaojiao.model.entity.SysUser;
-import com.xiaozhi.aoaojiao.model.vo.LoginUserVo;
+import com.xiaozhi.aoaojiao.model.vo.LoginUserVO;
 import com.xiaozhi.aoaojiao.model.vo.SysUserLoginVO;
 import com.xiaozhi.aoaojiao.service.strategy.LoginStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public abstract class AbstractLoginStrategy implements LoginStrategy {
         var token = jwtTokenUtil.createToken(sysUser.getUsername());
         sysUserLoginVO.setAccessToken(token);
         // 创建登录用户对象，存放登录信息 -> 后续可扩展强制退出操作
-        LoginUserVo loginUserVo = new LoginUserVo(sysUser.getUserId(), sysUser.getDeptId(), token, sysUser, null);
+        LoginUserVO loginUserVo = new LoginUserVO(sysUser.getUserId(), sysUser.getDeptId(), token, sysUser, null);
         redisUtil.set(RedisConstants.getLoginTokenKey(token), loginUserVo, jwtTokenUtil.getExpireTime());
         return sysUserLoginVO;
     }

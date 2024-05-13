@@ -1,8 +1,10 @@
 package com.xiaozhi.aoaojiao.mapper;
 
-import com.xiaozhi.aoaojiao.model.entity.SysRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xiaozhi.aoaojiao.model.entity.SysRole;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +17,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
+    List<SysRole> selectRoleList(SysRole sysRole);
 }

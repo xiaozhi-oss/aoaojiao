@@ -4,6 +4,7 @@ import com.xiaozhi.aoaojiao.model.dto.login.SysUserLoginDTO;
 import com.xiaozhi.aoaojiao.model.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaozhi.aoaojiao.model.vo.SysUserLoginVO;
+import com.xiaozhi.aoaojiao.model.vo.SysUserVO;
 
 /**
  * <p>
@@ -21,5 +22,5 @@ public interface SysUserService extends IService<SysUser> {
      */
     SysUserLoginVO login(SysUserLoginDTO sysUserLoginDTO);
 
-    SysUser getUserInfo();
+    SysUserVO getUserInfo();
 }

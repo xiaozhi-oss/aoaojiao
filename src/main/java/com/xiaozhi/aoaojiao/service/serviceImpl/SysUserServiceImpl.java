@@ -1,5 +1,6 @@
 package com.xiaozhi.aoaojiao.service.serviceImpl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaozhi.aoaojiao.core.enums.ResponseStatus;
 import com.xiaozhi.aoaojiao.core.exception.BusinessException;
@@ -7,8 +8,9 @@ import com.xiaozhi.aoaojiao.core.utils.RedisUtil;
 import com.xiaozhi.aoaojiao.mapper.SysUserMapper;
 import com.xiaozhi.aoaojiao.model.dto.login.SysUserLoginDTO;
 import com.xiaozhi.aoaojiao.model.entity.SysUser;
-import com.xiaozhi.aoaojiao.model.vo.LoginUserVo;
+import com.xiaozhi.aoaojiao.model.vo.LoginUserVO;
 import com.xiaozhi.aoaojiao.model.vo.SysUserLoginVO;
+import com.xiaozhi.aoaojiao.model.vo.SysUserVO;
 import com.xiaozhi.aoaojiao.service.SysUserService;
 import com.xiaozhi.aoaojiao.service.strategy.LoginStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +47,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public SysUser getUserInfo() {
+    public SysUserVO getUserInfo() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var loginUserVo = (LoginUserVo) authentication.getPrincipal();
-        return loginUserVo.getSysUser();
+        var loginUserVo = (LoginUserVO) authentication.getPrincipal();
+        return BeanUtil.copyProperties(loginUserVo.getSysUser(), SysUserVO.class);
     }
 }

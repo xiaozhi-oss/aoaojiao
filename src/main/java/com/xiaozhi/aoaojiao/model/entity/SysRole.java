@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -53,8 +54,8 @@ public class SysRole {
     /**
      * 删除标记：0-存在；1-删除
      */
-    @TableField("def_falg")
-    private Integer defFalg;
+    @TableField("def_flag")
+    private Integer defFlag;
 
     @TableField("create_by")
     private Long createBy;
@@ -74,5 +75,6 @@ public class SysRole {
     @TableField("remark")
     private String remark;
 
-
+    @TableField(exist = false)
+    private List<SysMenu> menus;
 }

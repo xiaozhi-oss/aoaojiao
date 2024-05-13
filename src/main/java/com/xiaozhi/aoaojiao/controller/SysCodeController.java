@@ -1,7 +1,7 @@
 package com.xiaozhi.aoaojiao.controller;
 
 import com.xiaozhi.aoaojiao.core.utils.ResponseResult;
-import com.xiaozhi.aoaojiao.model.vo.CaptchaImgVo;
+import com.xiaozhi.aoaojiao.model.vo.CaptchaImgVO;
 import com.xiaozhi.aoaojiao.service.SysCodeService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -24,7 +24,7 @@ public class SysCodeController {
     private SysCodeService sysCodeService;
 
     @GetMapping("/captchaImg")
-    public ResponseResult<CaptchaImgVo> getCaptchaImg() {
+    public ResponseResult<CaptchaImgVO> getCaptchaImg() {
         return ResponseResult.success(sysCodeService.captchaCodeImg());
     }
 

@@ -1,6 +1,6 @@
 package com.xiaozhi.aoaojiao.code;
 
-import com.xiaozhi.aoaojiao.model.vo.CaptchaImgVo;
+import com.xiaozhi.aoaojiao.model.vo.CaptchaImgVO;
 import com.xiaozhi.aoaojiao.service.SysCodeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class CodeServiceTest {
 
     @Test
     public void test01(){
-        CaptchaImgVo captchaImgVo = sysCodeService.captchaCodeImg();
+        CaptchaImgVO captchaImgVo = sysCodeService.captchaCodeImg();
         System.out.println(captchaImgVo);
     }
 }

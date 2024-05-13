@@ -9,7 +9,7 @@ import com.xiaozhi.aoaojiao.core.enums.ResponseStatus;
 import com.xiaozhi.aoaojiao.core.exception.BusinessException;
 import com.xiaozhi.aoaojiao.core.utils.EmailService;
 import com.xiaozhi.aoaojiao.core.utils.RedisUtil;
-import com.xiaozhi.aoaojiao.model.vo.CaptchaImgVo;
+import com.xiaozhi.aoaojiao.model.vo.CaptchaImgVO;
 import com.xiaozhi.aoaojiao.service.SysCodeService;
 import com.xiaozhi.aoaojiao.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class SysCodeServiceImpl implements SysCodeService {
     private SysUserService sysUserService;
 
     @Override
-    public CaptchaImgVo captchaCodeImg() {
+    public CaptchaImgVO captchaCodeImg() {
         // 生成 uuid
         String uuid = IdUtil.fastUUID();
         // 使用的是 hutool 中的验证码
@@ -42,7 +42,7 @@ public class SysCodeServiceImpl implements SysCodeService {
         // 存入 redis
         redisUtil.set(RedisConstants.getLoginCodeKey(uuid), code, TimeConstants.IMG_CAPTCHA_EXPIRE_TIME);
         String imageBase64Data = captcha.getImageBase64Data();
-        return new CaptchaImgVo(uuid, imageBase64Data);
+        return new CaptchaImgVO(uuid, imageBase64Data);
     }
 
     @Async("asyncExecutor")

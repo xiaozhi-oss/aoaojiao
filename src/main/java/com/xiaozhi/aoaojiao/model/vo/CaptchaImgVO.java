@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class CaptchaImgVo {
+public class CaptchaImgVO {
 
     private String uuid;
 
