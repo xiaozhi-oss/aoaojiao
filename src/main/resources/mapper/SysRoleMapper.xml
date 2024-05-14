@@ -6,26 +6,30 @@
         <id     property="roleId"       column="role_id"      />
         <result property="roleName"     column="role_name"      />
         <result property="roleStr"      column="role_str"     />
-        <result property="roleSort"     column="role_sort"     />
         <result property="remark"       column="remark"        />
-        <result property="defFalg"      column="def_falg" />
+        <result property="defFlag"      column="def_flag" />
         <result property="createTime"   column="create_time"          />
         <result property="createBy"     column="create_by"       />
         <result property="updateBy"     column="update_by"     />
         <result property="updateTime"   column="update_time"       />
         <result property="status"       column="status"     />
-        <collection  property="menus"   javaType="java.util.List"   resultMap="menuResult"      />
-    </resultMap>
 
-    <resultMap id="menuResult" type="com.xiaozhi.aoaojiao.model.entity.SysMenu">
-        <id     property="menuId"       column="menu_id"        />
-        <result property="menuName"     column="menu_name"      />
+        <collection property="menuIds" javaType="java.util.ArrayList" ofType="java.lang.Long">
+            <constructor>
+                <arg column="menuId" javaType="java.lang.Long" />
+            </constructor>
+        </collection>
+        <collection property="permissions" javaType="java.util.HashSet" ofType="java.lang.String">
+            <constructor>
+                <arg column="menuPerms" javaType="java.lang.String" />
+            </constructor>
+        </collection>
     </resultMap>
 
     <sql id="selectSysRoleSql">
-        SELECT r.role_id, r.role_name, r.role_str, r.role_sort, r.remark, r.def_flag, r.create_time,
+        SELECT r.role_id, r.role_name, r.role_str, r.remark, r.def_flag, r.create_time,
         r.create_by, r.update_by, r.update_time, r.`status`,
-        m.menu_id, m.menu_name
+        m.menu_id AS menuId, m.perms AS menuPerms
         FROM sys_role r
         LEFT JOIN sys_role_menu rm ON r.role_id = rm.role_id
         LEFT JOIN sys_menu m ON rm.menu_id = m.menu_id
@@ -33,18 +37,28 @@
 
     <select id="selectRoleList" parameterType="com.xiaozhi.aoaojiao.model.entity.SysRole" resultMap="SysRoleResult">
         <include refid="selectSysRoleSql" />
-        <where>
-            <if test="roleName != null">
-                r.role_name = #{roleName}
-            </if>
-            <if test="roleStr != null">
-                AND r.role_str = #{roleStr}
-            </if>
-            <if test="status != null">
-                AND r.status = #{status}
-            </if>
-            AND r.def_flag=0
-        </where>
+        where r.def_flag=0
+        <if test="roleName != null">
+            AND r.role_name like concat('%', #{roleName}, '%')
+        </if>
+        <if test="roleStr != null">
+            AND r.role_str like concat('%', #{roleStr}, '%')
+        </if>
+        <if test="status != null">
+            AND r.status = #{status}
+        </if>
     </select>
+
+    <insert id="batchInsertRoleMenu">
+        INSERT INTO sys_role_menu(role_id, menu_id)
+        VALUES
+        <foreach collection="menuIds" item="menuId" separator=",">
+            (#{roleId}, #{menuId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteRoleMenuByRoleId" parameterType="long">
+        DELETE FROM sys_role_menu WHERE role_id = #{roleId}
+    </delete>
 
 </mapper>

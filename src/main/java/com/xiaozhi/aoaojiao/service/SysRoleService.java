@@ -26,14 +26,26 @@ public interface SysRoleService extends IService<SysRole> {
     List<SysRoleVO> getRoleList(SysRoleListDTO sysRoleListDTO);
 
     /**
-     * 添加或者更新角色
+     * 添加角色
      * @param sysRoleAddOrUpdateDTO 角色添加或修改 DTO
      */
-    void addOrUpdateRole(SysRoleAddOrUpdateDTO sysRoleAddOrUpdateDTO);
+    void saveSysRole(SysRoleAddOrUpdateDTO sysRoleAddOrUpdateDTO);
+
+    /**
+     * 修改角色
+     * @param sysRoleAddOrUpdateDTO 角色添加或修改 DTO
+     */
+    void updateSysRole(SysRoleAddOrUpdateDTO sysRoleAddOrUpdateDTO);
 
 
     /**
      * 根据ID批量或单个删除
      */
     void deleteRoleByIds(List<Long> ids);
+
+    /**
+     * 检查名字是否已重复
+     * @param sysRoleAddOrUpdateDTO 角色添加或修改 DTO
+     */
+    void checkSysRoleNameRepeat(SysRoleAddOrUpdateDTO sysRoleAddOrUpdateDTO);
 }

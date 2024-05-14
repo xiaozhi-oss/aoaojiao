@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -40,12 +41,6 @@ public class SysRole {
     private String roleStr;
 
     /**
-     * 角色排序值，根据此排序值进行排序展示
-     */
-    @TableField("role_sort")
-    private Integer roleSort;
-
-    /**
      * 状态：0-禁用；1-启用
      */
     @TableField("status")
@@ -75,6 +70,15 @@ public class SysRole {
     @TableField("remark")
     private String remark;
 
+    /**
+     * 菜单组
+     */
     @TableField(exist = false)
-    private List<SysMenu> menus;
+    private List<Long> menuIds;
+
+    /**
+     * 角色菜单权限
+     */
+    @TableField(exist = false)
+    private Set<String> permissions;
 }

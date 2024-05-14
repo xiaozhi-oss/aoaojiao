@@ -36,10 +36,17 @@ public class SysRoleController {
         return ResponseResult.success(sysRoleService.getRoleList(sysRoleListDTO));
     }
 
-    @Operation(summary = "添加或菜单")
-    @PostMapping("/saveOrUpdate")
-    public ResponseResult<Boolean> saveOrUpdateRole(@RequestBody @Valid SysRoleAddOrUpdateDTO sysRoleAddOrUpdateDTO) {
-        sysRoleService.addOrUpdateRole(sysRoleAddOrUpdateDTO);
+    @Operation(summary = "添加角色")
+    @PostMapping("/save")
+    public ResponseResult<Boolean> saveSysRole(@RequestBody @Valid SysRoleAddOrUpdateDTO sysRoleAddOrUpdateDTO) {
+        sysRoleService.saveSysRole(sysRoleAddOrUpdateDTO);
+        return ResponseResult.success();
+    }
+
+    @Operation(summary = "修改角色")
+    @PutMapping("/update")
+    public ResponseResult<Boolean> updateSysRole(@RequestBody @Valid SysRoleAddOrUpdateDTO sysRoleAddOrUpdateDTO) {
+        sysRoleService.updateSysRole(sysRoleAddOrUpdateDTO);
         return ResponseResult.success();
     }
 }
