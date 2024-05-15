@@ -37,11 +37,19 @@ public class SysRoleTest {
     }
 
     @Test
-    public void test(){
+    public void testBatchInsertRoleMenu(){
         var menuIds = new ArrayList<Long>();
         menuIds.add(6L);
         menuIds.add(7L);
         sysRoleMapper.batchInsertRoleMenu(1L, menuIds);
+    }
 
+    @Test
+    public void testBatchDeleteRoleMenuByRoleIds(){
+        List<Long> roleIds = new ArrayList<>();
+        roleIds.add(3L);
+        roleIds.add(4L);
+        int count = sysRoleMapper.batchDeleteRoleMenuByRoleIds(roleIds);
+        System.out.println(count);
     }
 }

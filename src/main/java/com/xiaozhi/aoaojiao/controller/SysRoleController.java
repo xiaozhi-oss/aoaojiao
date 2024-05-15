@@ -38,15 +38,22 @@ public class SysRoleController {
 
     @Operation(summary = "添加角色")
     @PostMapping("/save")
-    public ResponseResult<Boolean> saveSysRole(@RequestBody @Valid SysRoleAddOrUpdateDTO sysRoleAddOrUpdateDTO) {
+    public ResponseResult<Void> saveSysRole(@RequestBody @Valid SysRoleAddOrUpdateDTO sysRoleAddOrUpdateDTO) {
         sysRoleService.saveSysRole(sysRoleAddOrUpdateDTO);
         return ResponseResult.success();
     }
 
     @Operation(summary = "修改角色")
     @PutMapping("/update")
-    public ResponseResult<Boolean> updateSysRole(@RequestBody @Valid SysRoleAddOrUpdateDTO sysRoleAddOrUpdateDTO) {
+    public ResponseResult<Void> updateSysRole(@RequestBody @Valid SysRoleAddOrUpdateDTO sysRoleAddOrUpdateDTO) {
         sysRoleService.updateSysRole(sysRoleAddOrUpdateDTO);
+        return ResponseResult.success();
+    }
+
+    @Operation(summary = "删除单个或多个角色")
+    @DeleteMapping("/deleteByIds")
+    public ResponseResult<Void> deleteSysRoleByIds(@RequestBody List<Long> roleIds) {
+        sysRoleService.deleteRoleByIds(roleIds);
         return ResponseResult.success();
     }
 }

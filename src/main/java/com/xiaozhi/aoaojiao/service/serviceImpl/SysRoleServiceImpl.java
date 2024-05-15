@@ -42,9 +42,13 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         return BeanUtil.copyToList(sysRoles, SysRoleVO.class);
     }
 
+    @Transactional
     @Override
     public void deleteRoleByIds(List<Long> ids) {
-
+        int batchCount = sysRoleMapper.deleteBatchIds(ids);
+        sysRoleMapper.batchDeleteRoleMenuByRoleIds(ids);
+        Assert.isTrue(batchCount > 0,
+                () -> BusinessException.build(ResponseStatus.OPERATION_ERROR));
     }
 
     @Transactional

@@ -35,4 +35,11 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @return  返回插入条数
      */
     int deleteRoleMenuByRoleId(@Param("roleId") Long roleId);
+
+    /**
+     * 根据角色ID列表批量删除关联
+     * @param roleIds
+     * @return
+     */
+    int batchDeleteRoleMenuByRoleIds(@Param("roleIds") List<Long> roleIds);
 }

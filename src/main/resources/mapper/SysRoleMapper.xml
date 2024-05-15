@@ -61,4 +61,11 @@
         DELETE FROM sys_role_menu WHERE role_id = #{roleId}
     </delete>
 
+    <delete id="batchDeleteRoleMenuByRoleIds">
+        DELETE FROM sys_role_menu WHERE role_id IN
+        <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+            #{roleId}
+        </foreach>
+    </delete>
+
 </mapper>
