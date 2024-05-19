@@ -1,12 +1,16 @@
 package com.xiaozhi.aoaojiao.mapper;
 
-import com.xiaozhi.aoaojiao.model.entity.SysUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.xiaozhi.aoaojiao.model.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author xiaozhi
@@ -16,9 +20,35 @@ import org.apache.ibatis.annotations.Mapper;
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
     /**
-     * 根据用户名查询
-     * @param username  用户名
-     * @return  用户
+     * 查询用户
+     *
+     * @param sysUser 用户
+     * @return 用户
      */
-    SysUser selectSysUserByUsername(String username);
+    IPage<SysUser> selectSysUser(IPage<SysUser> page, @Param("sysUser") SysUser sysUser);
+
+    /**
+     * 批量插入 user 和 role 的关联表
+     *
+     * @param userId  用户ID
+     * @param roleIds 角色ID列表
+     * @return 返回插入条数
+     */
+    int batchInsertUserRole(@Param("userId") Long userId,
+                            @Param("roleIds") List<Long> roleIds);
+
+    /**
+     * 根据用户ID删除关联
+     * @param userId    用户ID
+     * @return      返回插入条数
+     */
+    int deleteUserAndRoleByUserId(@Param("userId") Long userId);
+    
+    /**
+     * 根据角色ID列表批量删除关联
+     *
+     * @param userIds
+     * @return
+     */
+    int batchDeleteUserRoleByUserIds(@Param("userIds") List<Long> userIds);
 }

@@ -31,12 +31,6 @@ public class SysRoleAddOrUpdateDTO {
     private String roleStr;
 
     /**
-     * 角色排序值，根据此排序值进行排序展示
-     */
-    // @TableField("role_sort")
-    // private Integer roleSort;
-
-    /**
      * 状态：0-禁用；1-启用
      */
     @Min(value = 0, message = "状态最小值为 0")

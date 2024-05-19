@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xiaozhi.aoaojiao.core.enums.ResponseStatus;
 import com.xiaozhi.aoaojiao.core.exception.BusinessException;
 import com.xiaozhi.aoaojiao.core.utils.ResponseResult;
+import com.xiaozhi.aoaojiao.core.utils.SecurityUtil;
 import com.xiaozhi.aoaojiao.model.dto.SysDeptAddOrUpdateDTO;
 import com.xiaozhi.aoaojiao.model.dto.SysDeptListDTO;
 import com.xiaozhi.aoaojiao.model.entity.SysDept;
@@ -18,8 +19,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,8 +35,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/dept")
 public class SysDeptController {
-
-    @Resource
+    
+    @Autowired
     private SysDeptService sysDeptService;
 
     @Operation(summary = "添加部门")
@@ -44,8 +45,7 @@ public class SysDeptController {
         checkNameRepeat(sysDeptAddOrUpdateDTO.getDeptName());
         SysDept sysDept = BeanUtil.copyProperties(sysDeptAddOrUpdateDTO, SysDept.class);
         sysDept.setCreateTime(DateTime.now());
-        // TODO 设置创建者
-        sysDept.setCreateBy(0L);
+        sysDept.setCreateBy(SecurityUtil.getLoginUserId());
         return ResponseResult.success(sysDeptService.save(sysDept));
     }
 
@@ -55,7 +55,7 @@ public class SysDeptController {
         checkNameRepeat(sysDeptAddOrUpdateDTO.getDeptName());
         SysDept sysDept = BeanUtil.copyProperties(sysDeptAddOrUpdateDTO, SysDept.class);
         sysDept.setUpdateTime(DateTime.now());
-        // TODO 设置更新者
+        sysDept.setUpdateBy(SecurityUtil.getLoginUserId());
         return ResponseResult.success(sysDeptService.updateById(sysDept));
     }
 

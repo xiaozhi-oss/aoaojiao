@@ -55,14 +55,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public void updateSysRole(SysRoleAddOrUpdateDTO sysRoleAddOrUpdateDTO) {
         var sysRole = BeanUtil.copyProperties(sysRoleAddOrUpdateDTO, SysRole.class);
-        sysRole.setCreateTime(new Date());
-        sysRole.setCreateBy(SecurityUtil.getLoginUserId());
+        sysRole.setUpdateTime(new Date());
+        sysRole.setUpdateBy(SecurityUtil.getLoginUserId());
         int count = sysRoleMapper.updateById(sysRole);
         Assert.isTrue(count > 0,
                 () -> BusinessException.build(ResponseStatus.OPERATION_ERROR));
         // 删除掉再重新插入
         sysRoleMapper.deleteRoleMenuByRoleId(sysRoleAddOrUpdateDTO.getRoleId());
-        sysRoleMapper.batchInsertRoleMenu(sysRole.getRoleId(), sysRole.getMenuIds());
+        if (!sysRole.getMenuIds().isEmpty()) {
+            sysRoleMapper.batchInsertRoleMenu(sysRole.getRoleId(), sysRole.getMenuIds());
+        }
     }
 
     @Transactional
@@ -74,7 +76,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         int count = sysRoleMapper.insert(sysRole);
         Assert.isTrue(count > 0,
                 () -> BusinessException.build(ResponseStatus.OPERATION_ERROR));
-        sysRoleMapper.batchInsertRoleMenu(sysRole.getRoleId(), sysRole.getMenuIds());
+        if (!sysRole.getMenuIds().isEmpty()) {
+            sysRoleMapper.batchInsertRoleMenu(sysRole.getRoleId(), sysRole.getMenuIds());
+        }
     }
 
     /**

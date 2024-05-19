@@ -1,7 +1,9 @@
 package com.xiaozhi.aoaojiao.model.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.xiaozhi.aoaojiao.model.entity.SysDept;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author xiaozhi
@@ -12,26 +14,35 @@ public class SysUserVO {
     /**
      * 用户名
      */
-    @TableField("username")
     private String username;
 
     /**
      * 用户昵称
      */
-    @TableField("nickname")
     private String nickname;
 
 
     /**
      * 邮箱
      */
-    @TableField("email")
     private String email;
+
+    /**
+     * 手机号码
+     */
+    private String phoneNumber;
 
     /**
      * 头像url
      */
-    @TableField("avatar")
     private String avatar;
 
+    private String status;
+
+    /**
+     * 角色ID列表
+     */
+    private List<Long> roleIds;
+
+    private SysDept dept;
 }
