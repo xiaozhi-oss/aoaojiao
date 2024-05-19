@@ -1,5 +1,7 @@
 package com.xiaozhi.aoaojiao.admin;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhi.aoaojiao.mapper.SysUserMapper;
 import com.xiaozhi.aoaojiao.model.entity.SysUser;
 import com.xiaozhi.aoaojiao.service.SysUserService;
@@ -35,8 +37,10 @@ public class SysUserTest {
 
     @Test
     void test() {
-        SysUser sysUser = sysUserMapper.selectSysUserByUsername("sys_test");
-        System.out.println(sysUser);
+        SysUser sysUser = new SysUser();
+        sysUser.setUsername("sys_test");
+        IPage<SysUser> sysUserIPage = sysUserMapper.selectSysUser(new Page<>(1, 10), sysUser);
+        System.out.println(sysUserIPage.getRecords());
     }
 
     @Test

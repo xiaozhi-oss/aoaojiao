@@ -14,6 +14,8 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +31,7 @@ import java.util.List;
 @Tag(name = "菜单相关接口")
 @RestController
 @RequestMapping("/api/menu")
+@RequiredArgsConstructor(onConstructor = @__({ @Autowired}))
 public class SysMenuController {
 
     @Resource

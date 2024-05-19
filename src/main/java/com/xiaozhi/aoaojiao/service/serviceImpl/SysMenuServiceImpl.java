@@ -18,7 +18,8 @@ import com.xiaozhi.aoaojiao.model.entity.SysMenu;
 import com.xiaozhi.aoaojiao.model.vo.SysMenuVO;
 import com.xiaozhi.aoaojiao.model.vo.SysTreeMenuVO;
 import com.xiaozhi.aoaojiao.service.SysMenuService;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -36,9 +37,9 @@ import java.util.stream.Collectors;
  * @since 2024-04-09 03:56:45
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__({ @Autowired}))
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
-
-    @Resource
+    
     private SysMenuMapper sysMenuMapper;
 
     @Override

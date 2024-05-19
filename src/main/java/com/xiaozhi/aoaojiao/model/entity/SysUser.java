@@ -1,6 +1,7 @@
 package com.xiaozhi.aoaojiao.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -95,6 +96,7 @@ public class SysUser {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @TableField("create_time")
     private Date createTime;
 

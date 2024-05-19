@@ -1,8 +1,10 @@
 package com.xiaozhi.aoaojiao.mapper;
 
-import com.xiaozhi.aoaojiao.model.entity.SysUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.xiaozhi.aoaojiao.model.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -16,9 +18,9 @@ import org.apache.ibatis.annotations.Mapper;
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
     /**
-     * 根据用户名查询
-     * @param username  用户名
+     * 查询用户
+     * @param sysUser  用户
      * @return  用户
      */
-    SysUser selectSysUserByUsername(String username);
+    IPage<SysUser> selectSysUser(IPage<SysUser> page, @Param("sysUser") SysUser sysUser);
 }
