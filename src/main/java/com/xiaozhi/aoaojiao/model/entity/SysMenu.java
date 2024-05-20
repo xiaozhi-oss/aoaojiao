@@ -101,5 +101,4 @@ public class SysMenu {
     @TableField("remark")
     private String remark;
 
-
 }

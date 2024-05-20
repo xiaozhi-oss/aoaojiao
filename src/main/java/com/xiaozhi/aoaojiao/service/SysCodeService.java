@@ -1,6 +1,6 @@
 package com.xiaozhi.aoaojiao.service;
 
-import com.xiaozhi.aoaojiao.model.vo.CaptchaImgVo;
+import com.xiaozhi.aoaojiao.model.vo.CaptchaImgVO;
 
 /**
  * @author xiaozhi
@@ -12,7 +12,7 @@ public interface SysCodeService {
     /**
      * 发送验证码图片
      */
-    CaptchaImgVo captchaCodeImg();
+    CaptchaImgVO captchaCodeImg();
 
     /**
      * 发送邮箱验证码

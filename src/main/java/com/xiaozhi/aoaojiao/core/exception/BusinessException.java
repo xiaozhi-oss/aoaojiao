@@ -4,6 +4,8 @@ import com.xiaozhi.aoaojiao.core.enums.ResponseStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.function.Supplier;
+
 /**
  * @author xiaozhi
  */
@@ -17,5 +19,9 @@ public class BusinessException extends RuntimeException {
     }
     public static BusinessException build(ResponseStatus responseStatus) {
         return new BusinessException(responseStatus);
+    }
+
+    public static Supplier buildError(ResponseStatus responseStatus) {
+        return () -> BusinessException.build(responseStatus);
     }
 }

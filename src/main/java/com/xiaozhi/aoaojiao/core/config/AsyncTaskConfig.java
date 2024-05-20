@@ -1,4 +1,4 @@
-package com.xiaozhi.aoaojiao.controller;
+package com.xiaozhi.aoaojiao.core.config;
 
 import com.alibaba.ttl.threadpool.TtlExecutors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.concurrent.Executor;
 @EnableAsync
 @Configuration
 public class AsyncTaskConfig {
-
+    
     @Autowired
     private TaskExecutionProperties tsp;
 

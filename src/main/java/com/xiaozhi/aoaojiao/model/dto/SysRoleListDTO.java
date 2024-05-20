@@ -6,7 +6,5 @@ import lombok.Data;
  * @author xiaozhi
  */
 @Data
-public class SysMenuDeleteDTO {
-
-    private Integer menuId;
+public class SysRoleListDTO {
 }

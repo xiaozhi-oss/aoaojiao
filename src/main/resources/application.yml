@@ -34,6 +34,11 @@ spring:
           config:
             drop-table-allow: false
 
+  jackson:
+    deserialization:
+      # 全局忽略位置属性
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+
   # task 配置
   task:
     execution:
@@ -49,9 +54,9 @@ spring:
     # 指定邮件服务器地址
     host: smtp.qq.com
     # 登录账户
-    username: 1596971466@qq.com
+    username: 1815101896@qq.com
     # 登录密码
-    password: sqcrsufcmhmnfebf
+    password: qwccgiouruubeahe
     # 端口
     port: 465
     # 默认编码

@@ -6,8 +6,8 @@ import com.xiaozhi.aoaojiao.core.utils.JwtTokenUtil;
 import com.xiaozhi.aoaojiao.core.utils.RedisUtil;
 import com.xiaozhi.aoaojiao.core.utils.ResponseResult;
 import com.xiaozhi.aoaojiao.model.dto.login.factory.SysLoginDTOFactory;
-import com.xiaozhi.aoaojiao.model.entity.SysUser;
 import com.xiaozhi.aoaojiao.model.vo.SysUserLoginVO;
+import com.xiaozhi.aoaojiao.model.vo.SysUserVO;
 import com.xiaozhi.aoaojiao.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,14 +39,6 @@ public class SysLoginController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    /*
-            {
-            "loginType": "username_pwd",
-            "username": "sys_test",
-            "password": "11111111",
-            "verificationCode": "123"
-        }
-     */
     @Operation(summary = "登录接口")
     @PostMapping("/login")
     public ResponseResult<SysUserLoginVO> login(@RequestBody Map<String, String> params) {
@@ -63,8 +55,8 @@ public class SysLoginController {
 
     @Operation(summary = "获取登录用户信息")
     @GetMapping("/getUserInfo")
-    public ResponseResult<SysUser> getUserInfo() {
-        SysUser sysUser = sysUserService.getUserInfo();
+    public ResponseResult<SysUserVO> getUserInfo() {
+        var sysUser = sysUserService.getUserInfo();
         return ResponseResult.success(sysUser);
     }
 
@@ -74,7 +66,7 @@ public class SysLoginController {
     public ResponseResult<Void> logout(HttpServletRequest request) {
         String token = jwtTokenUtil.getToken(request);
         // 移除登录信息
-        redisUtil.setRemove(RedisConstants.getLoginCodeKey(token));
+        redisUtil.del(RedisConstants.getLoginTokenKey(token));
         return ResponseResult.success();
     }
 

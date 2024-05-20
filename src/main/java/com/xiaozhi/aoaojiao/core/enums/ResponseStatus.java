@@ -51,6 +51,7 @@ public enum ResponseStatus {
     LOGIN_REPEAT_ERROR("A0465", "重复登录"),
     EMAIL_SEND_ERROR("A0466", "邮箱发送验证码失败，请重试"),
     LOGIN_USER_NOT_EXIST_ERROR("A0467", "系统不存在该用户，请联系管理员"),
+    LOGOUT_ERROR("A0467", "退出登录失败"),
 
 
     /**

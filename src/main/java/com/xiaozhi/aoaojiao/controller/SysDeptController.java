@@ -18,8 +18,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +35,7 @@ import java.util.List;
 @RequestMapping("/api/dept")
 public class SysDeptController {
 
-    @Resource
+    @Autowired
     private SysDeptService sysDeptService;
 
     @Operation(summary = "添加部门")

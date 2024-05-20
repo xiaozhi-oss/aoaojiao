@@ -8,11 +8,11 @@ import com.xiaozhi.aoaojiao.core.enums.ResponseStatus;
 import com.xiaozhi.aoaojiao.core.exception.BusinessException;
 import com.xiaozhi.aoaojiao.mapper.SysDeptMapper;
 import com.xiaozhi.aoaojiao.model.dto.SysDeptListDTO;
+import com.xiaozhi.aoaojiao.model.entity.SysDept;
 import com.xiaozhi.aoaojiao.model.vo.SysDeptVO;
 import com.xiaozhi.aoaojiao.model.vo.SysTreeDeptVO;
-import com.xiaozhi.aoaojiao.model.entity.SysDept;
 import com.xiaozhi.aoaojiao.service.SysDeptService;
-import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @Service
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements SysDeptService {
     
-    @Resource
+    @Autowired
     private SysDeptMapper sysDeptMapper;
 
     @Override

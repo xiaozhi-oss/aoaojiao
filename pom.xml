@@ -24,6 +24,7 @@
         <velocity-engine-core.version>2.3</velocity-engine-core.version>
         <knife4j.version>4.4.0</knife4j.version>
         <nimbus-jose-jwt.version>9.38-rc3</nimbus-jose-jwt.version>
+        <guava-version>32.1.2-jre</guava-version>
     </properties>
     <dependencies>
         <!-- web starter -->
@@ -137,6 +138,12 @@
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
             <version>${nimbus-jose-jwt.version}</version>
+        </dependency>
+        <!-- guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava-version}</version>
         </dependency>
     </dependencies>
     <build>
