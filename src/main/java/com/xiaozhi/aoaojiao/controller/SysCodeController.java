@@ -6,7 +6,6 @@ import com.xiaozhi.aoaojiao.service.SysCodeService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "验证码接口")
 @RestController
 @RequestMapping("/api/code")
-@RequiredArgsConstructor(onConstructor = @__({ @Autowired }))
 public class SysCodeController {
 
     @Autowired

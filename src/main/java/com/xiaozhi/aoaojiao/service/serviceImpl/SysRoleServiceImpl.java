@@ -14,7 +14,6 @@ import com.xiaozhi.aoaojiao.model.dto.SysRoleListDTO;
 import com.xiaozhi.aoaojiao.model.entity.SysRole;
 import com.xiaozhi.aoaojiao.model.vo.SysRoleVO;
 import com.xiaozhi.aoaojiao.service.SysRoleService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,9 +30,9 @@ import java.util.List;
  * @since 2024-04-09 03:56:45
  */
 @Service
-@RequiredArgsConstructor(onConstructor = @__({ @Autowired }))
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
-    
+
+    @Autowired
     private SysRoleMapper sysRoleMapper;
 
     @Override

@@ -9,7 +9,6 @@ import com.xiaozhi.aoaojiao.service.SysRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,9 +25,9 @@ import java.util.List;
 @Tag(name = "角色相关接口")
 @RestController
 @RequestMapping("/api/role")
-@RequiredArgsConstructor(onConstructor = @__({ @Autowired }))
 public class SysRoleController {
     
+    @Autowired
     private SysRoleService sysRoleService;
 
     @Operation(summary = "获取角色列表")
