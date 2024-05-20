@@ -12,6 +12,7 @@ import com.xiaozhi.aoaojiao.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
@@ -25,6 +26,7 @@ import java.util.Map;
 @Tag(name = "系统用户登录接口")
 @RestController
 @RequestMapping("/api/admin")
+@RequiredArgsConstructor(onConstructor = @__({ @Autowired }))
 public class SysLoginController {
 
     @Autowired

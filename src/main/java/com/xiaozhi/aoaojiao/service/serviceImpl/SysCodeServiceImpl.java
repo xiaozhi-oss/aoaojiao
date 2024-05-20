@@ -12,6 +12,7 @@ import com.xiaozhi.aoaojiao.core.utils.RedisUtil;
 import com.xiaozhi.aoaojiao.model.vo.CaptchaImgVO;
 import com.xiaozhi.aoaojiao.service.SysCodeService;
 import com.xiaozhi.aoaojiao.service.SysUserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSendException;
 import org.springframework.scheduling.annotation.Async;
@@ -21,15 +22,13 @@ import org.springframework.stereotype.Service;
  * @author xiaozhi
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__({ @Autowired }))
 public class SysCodeServiceImpl implements SysCodeService {
-
-    @Autowired
+    
     private EmailService emailService;
 
-    @Autowired
     private RedisUtil redisUtil;
 
-    @Autowired
     private SysUserService sysUserService;
 
     @Override
